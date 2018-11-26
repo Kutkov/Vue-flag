@@ -35,7 +35,8 @@ export default {
       users: [],
       name: '',
       colorFlag: true,
-      id: ''
+      targetId: '',
+      nowColorFlag: true
     }
   },
   methods: {
@@ -50,18 +51,16 @@ export default {
       this.name = ''
     },
     updateFlag(targetFlag) {
-      const targetId = targetFlag.target.id
-      let colorNow;
+      this.targetId = targetFlag.target.id
       this.users.forEach((item, index, arr) => {
-        if(item.id === targetId) {
-          arr[index].colorFlag = !arr[index].colorFlag
-          colorNow = arr[index].colorFlag
+        if(item.id === this.targetId) {
+          this.nowColorFlag = !arr[index].colorFlag
         }
       })
 
-      let washingtonRef = fb.collection("users").doc(targetId)
+      let washingtonRef = fb.collection("users").doc(this.targetId)
       washingtonRef.update({
-          colorFlag: colorNow
+          colorFlag: this.nowColorFlag
       })
     }
   },
@@ -81,10 +80,11 @@ export default {
         }
         if (change.type === "modified") {
           this.users.forEach((user, index, arr) => {
-            if(user.id === this.id) {
-              arr[index].colorFlag = !this.colorFlag
+            if(user.id === change.doc.id) {
+              arr[index].colorFlag = change.doc.data().colorFlag
             }
           })
+
         }
       })
     })

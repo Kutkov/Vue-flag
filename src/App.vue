@@ -1,20 +1,9 @@
 <template>
   <div id="app">
-    <h1>Flag App</h1>
-    <Main/>
+    <router-view/>
   </div>
 </template>
 
-<script>
-import Main from "./components/Main.vue";
-
-export default {
-  name: "app",
-  components: {
-    Main
-  }
-};
-</script>
 
 <style>
 #app {
